@@ -1,70 +1,77 @@
-﻿class Program
+﻿
+using System;
+using System.Collections.Generic;
+
+// Hayvan sınıfı
+class Animal
+{
+    public string Name { get; set; }
+    public string Species { get; set; }
+    public int Age { get; set; } //Consturctora atanacak özellikler olusturuyorum
+
+    public Animal(string name, string species, int age)//özellikleri atıyorum
+    {
+        Name = name;
+        Species = species;
+        Age = age;
+    }
+
+    
+}
+
+// Hayvanat Bahçesi sınıfı
+class Zoo
+{
+    public string Name { get; set; }
+    public List<Animal> Animals { get; set; }//liste hayvanlar classından tutar
+
+    public Zoo(string name)//Constructor
+    {
+        Name = name;
+        Animals = new List<Animal>();
+    }
+
+    public void AddAnimal(Animal animal)//Hayvanat bahcesine hayvan ekler
+    {
+        Animals.Add(animal);
+    }
+
+    public void RemoveAnimal(Animal animal)//Hayvanat bahcesinden hayvan cıkarır
+    {
+        Animals.Remove(animal);
+    }
+
+    public void ListAnimals()//Hayvannların özelliklerini listeler
+    {
+        Console.WriteLine($"Hayvanat Bahçesi: {Name}");
+        Console.WriteLine("Hayvanlar:");
+        foreach (var animal in Animals)
+        {
+            Console.WriteLine($"- {animal.Name} ({animal.Species}), Yaş: {animal.Age}");
+        }
+    }
+}
+
+
+class Program
 {
     static void Main()
     {
-        string[] IngredientsBread = new string[] { "Water", "Flour","Yeast" };
-        string[] IngredientsCake = new string[] { "Sugar", "Flour" , "Egg","Milk","Baking Powder","Vanilin"};
+        Zoo myZoo = new Zoo("Mutlu Hayvanat Bahçesi");//Zoo classı olusturdum
 
-        Food Ekmek = new("Bread", IngredientsBread, 7);
-        Food Pasta = new("Cake", IngredientsCake, 50);
-        Food Poaca = new("Pogacha", IngredientsBread, 10);
-        List<Food> foods = new()
-        {
-            Ekmek,
-            Pasta
-        };
-        Bakery arslan = new("Arslan", foods, 4);
-        arslan.NamedFood(Poaca);
-        arslan.ShowMenu();
-    }
-}
+        // Hayvanları olusturuyorum
+        Animal lion = new Animal("Aslan", "Memeli", 5);
+        Animal parrot = new Animal("Papağan", "Kuş", 2);
+        Animal dolphin = new Animal("Yunus", "Memeli", 10);
 
-class Bakery
-{
-    public string Name { get; set; }//Fırın Nameı
-    public List<Food> Foods { get; set; }//Food sınıfından liste olusturuyorum menu olusturmak için 
-    public int OpeningTime { get; set; }//Açılış saati
+        // Hayvanat bahçesine hayvanlar ekliyorum
+        myZoo.AddAnimal(lion);
+        myZoo.AddAnimal(parrot);
+        myZoo.AddAnimal(dolphin);
 
-    public Bakery(string Name, List<Food> Foods, int OpeningTime)//Constructorla fırının genel bilgilerini alıyorum
-    {
-        this.Name = Name;
-        this.Foods = Foods;
-        this.OpeningTime = OpeningTime;
-    }
+        // Hayvanları listeliyorum
+        myZoo.ListAnimals();
 
-    public void NamedFood(Food food)//Food sınıfından değişken alıyor
-    {
-        if (!Foods.Contains(food))//Listenin içinde bu yemek var mı kontrol ediyor
-        {
-            Foods.Add(food);//yoksa ekle
-        }
-    }
-
-    public void ShowMenu()//Menu bilgilerini göster
-    {
-        Console.WriteLine($"Bakery: {Name}");
-        Console.WriteLine($"Opening time: {OpeningTime}");
-
-        foreach (var food in Foods)
-        {
-            Console.WriteLine($"Food: {food.Name}");
-            Console.WriteLine($"Ingredients: {string.Join(", ", food.Ingredients)}");
-            Console.WriteLine($"Price: {food.Price}");
-            Console.WriteLine();
-        }
-    }
-}
-
-class Food//Yemekle ilgili genel bilgiler
-{
-    public string Name { get; set; }//Yemegin Nameı
-    public string[] Ingredients { get; set; }//Malzemeleri dizi içinde tutuyorum
-    public int Price { get; set; }//Fiyatı tutuyorum
-
-    public Food(string Name, string[] Ingredients, int Price)//Constructorla yemekle ilgili bilgileri alıyorum
-    {
-        this.Name = Name;
-        this.Ingredients = Ingredients;
-        this.Price = Price;
+        
     }
 }
